@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#user-submit').click(function () {
+                var payload = {
+                    username: $('#user-name').val(),
+                    password: $('#password').val(),
+                    email: $('#email').val()
+                };
+                $.ajax({
+                    url: "/users",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    data: JSON.stringify(payload),
+                    complete: function (data) {
+                        $('#output').html(data.responseText);
+                    }
+                });
+            });
+            $('#all-users').click(function(){
+            $.ajax({
+                url: "/users",
+                type: "GET",
+                complete: function(data) {
+                    console.log(data.responseJSON);
+                    $('#allusers').html(data.responseJSON);
+                }
+            })
+        });
+        });
+    </script>
+</head>
+<body>
+<h3>Enter data to enter into the database:</h3>
+<input id="user-name" type="text" />
+<input id="password" type="text"/>
+<input id="email" type="text" />
+<input id="user-submit" type="submit" />
+<h3>Display All Users</h3>
+<button id="all-users">Get All</button>
+<p id="output"></p>
+<p id="allusers"></p>
+</body>
+</html>
